@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "141471887364",
+    "project_id": "groceryonline-ccde4",
+    "storage_bucket": "groceryonline-ccde4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:141471887364:android:8983ef5023745e3a338551",
+        "android_client_info": {
+          "package_name": "com.example.groceryonline"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "141471887364-9qobpm4bhi54ckdsh20pvef0kv7ifo5c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtuIpuJHr5sZjcc-50lkGbw8gSMWaUOBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "141471887364-9qobpm4bhi54ckdsh20pvef0kv7ifo5c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

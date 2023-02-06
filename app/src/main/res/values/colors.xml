@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#F3F1F6</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="statusbar">#F3F1F1</color>
+    <color name="orange">#EFB054</color>
+
+
+
+    <color name="bottom_nav_backgroud">#FBFBFB</color>
+    <color name="bottom_nav_item">#8C7060</color>
+    <color name="bottom_nav_selected_item">#220006</color>
+    <color name="fragment_bg_colour">#FDF8F4</color>
+    <color name="signupbotton">#A1CDEF</color>
+    <color name="sign_in_text">#03A9F4</color>
+    <color name="homepage">#E6E8F2</color>
+    <color name="TextColour">#000407</color>
+    <color name="ButtonColour">#E1FFEB3B</color>
+</resources>

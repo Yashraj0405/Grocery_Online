@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Grocery Online</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_open">Open</string>
+    <string name="nav_close">Close</string>
+    <string name="offer_fragment">Offer Fragment</string>
+    <string name="my_order_fragment">My Order fragment</string>
+    <string name="profile">Profile</string>
+    <string name="category">Category</string>
+    <string name="offers">Offers</string>
+    <string name="my_orders">My Orders</string>
+    <string name="search_bar">Search Bar</string>
+    <string name="search_for_aata_dal_coke_and_more">Search for aata, dal, coke and more</string>
+    <string name="home">Home</string>
+    <string name="Home_Tittle">Home</string>
+    <string name="Profile_Title">Profile</string>
+    <string name="popular_products">Popular Products</string>
+    <string name="view_all">View All</string>
+    <string name="explore_products">Explore_products</string>
+    <string name="recommended_products">Recommended_products</string>
+    <string name="Explore_products">Explore Products</string>
+
+</resources>
