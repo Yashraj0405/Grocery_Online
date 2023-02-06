@@ -96,8 +96,6 @@ public class DetailedActivity extends AppCompatActivity {
             product_Name.setText(brandItemsModel.getName());
             product_qty.setText(brandItemsModel.getQty());
             product_price.setText(brandItemsModel.getPrice());
-
-
         }
 
         //Rice

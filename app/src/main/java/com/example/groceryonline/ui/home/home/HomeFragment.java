@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
     ProgressBar progressBar;
 
 
-    RecyclerView popularRec,homeCatRec,brandSpotRec,commonRec;
+    RecyclerView popularRec,homeCatRec,brandSpotRec,vegetableRec,fruits_rec;
     FirebaseFirestore db;
 
     //Popular Items
@@ -69,6 +69,13 @@ public class HomeFragment extends Fragment {
     List<BrandSportLight> brandSportLightList;
     BrandSportLightAdapter brandSportLightAdapter;
 
+
+    //Using BrandItem : Model&Adapter for vegetableRec and many more
+    List<BrandItemsModel> brandItemsModelList;
+    BrandItemAdapter brandItemAdapter;
+
+    List<BrandItemsModel> list;
+    BrandItemAdapter adapter;
 
     //Auto Image
     private ViewPager2 viewPager2;
@@ -113,8 +120,8 @@ public class HomeFragment extends Fragment {
         homeCatRec = root.findViewById(R.id.explore_rec);
         // connecting recyclerview of fragment with id brandSpot_rec
         brandSpotRec = root.findViewById(R.id.brand_img);
-
-
+        vegetableRec = root.findViewById(R.id.vegetable_rec);
+        fruits_rec = root.findViewById(R.id.Fruits_rec);
 
 
 
@@ -235,6 +242,44 @@ public class HomeFragment extends Fragment {
                     }
                 });
 
+        //Vegetable rec
+        vegetableRec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        brandItemsModelList = new ArrayList<>();
+        brandItemAdapter = new BrandItemAdapter(getActivity(),brandItemsModelList);
+        vegetableRec.setAdapter(brandItemAdapter);
+
+
+
+            db.collection("BrandItem").whereEqualTo("type","vegetable" ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
+                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
+                        brandItemsModelList.add(brandItemsModel);
+                        brandItemAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+
+
+        //Fruit rec
+        fruits_rec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        list = new ArrayList<>();
+        adapter = new BrandItemAdapter(getActivity(),list);
+        fruits_rec.setAdapter(adapter);
+
+
+
+        db.collection("BrandItem").whereEqualTo("type","Fruits" ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
+                    BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
+                    list.add(brandItemsModel);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
 
 
 

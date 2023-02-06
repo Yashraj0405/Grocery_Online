@@ -181,6 +181,41 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp" />
 
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fresh Vegetables"
+                android:textColor="@color/TextColour"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/vegetable_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+
+            <TextView
+                android:layout_marginLeft="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fresh Fruits"
+                android:textColor="@color/TextColour"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/Fruits_rec"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp" />
+
+
+
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>
