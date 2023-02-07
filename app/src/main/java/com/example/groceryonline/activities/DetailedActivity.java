@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.groceryonline.R;
@@ -18,11 +19,16 @@ import com.example.groceryonline.adapters.BrandItemAdapter;
 import com.example.groceryonline.models.BrandItemsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class DetailedActivity extends AppCompatActivity {
@@ -30,11 +36,12 @@ public class DetailedActivity extends AppCompatActivity {
     ImageView product_Image, add_Item , remove_Item;
     TextView product_Name , product_qty , product_price , quantity ;
     int totalQuantity = 0;
+    int totalPrice =0;
     Button addToCart;
 
     BrandItemsModel brandItemsModel = null;
 
-
+    FirebaseAuth auth;
     FirebaseFirestore firestore;
     RecyclerView recyclerView;
     BrandItemAdapter brandItemAdapter;
@@ -50,6 +57,7 @@ public class DetailedActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.SimilarProducts_rec);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         brandItemsModelList = new ArrayList<BrandItemsModel>();
         brandItemAdapter = new BrandItemAdapter(this,brandItemsModelList);
@@ -61,6 +69,8 @@ public class DetailedActivity extends AppCompatActivity {
         product_price = findViewById(R.id.detailed_price);
 
         quantity = findViewById(R.id.Quantity);
+
+        //Add quantity button
         add_Item = findViewById(R.id.add_to_cart_plus_detailed);
         add_Item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +78,12 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalQuantity<20){
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
+                    int price = Integer.parseInt(brandItemsModel.getPrice());
+                    totalPrice = totalQuantity * price;
                 }
             }
         });
+        //Remove quantity button
         remove_Item = findViewById(R.id.add_to_cart_minus_detailed);
         remove_Item.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,26 +91,40 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalQuantity>0){
                     totalQuantity--;
                     quantity.setText(String.valueOf(totalQuantity));
+                    int price = Integer.parseInt(brandItemsModel.getPrice());
+                    totalPrice = totalQuantity * price;
+
                 }
             }
         });
 
+        //Add to cart Button
         addToCart = findViewById(R.id.add_to_cart_button);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addedToCart();
+            }
+        });
 
 
         final Object object = getIntent().getSerializableExtra("detail");
         if( object instanceof BrandItemsModel){
             brandItemsModel = (BrandItemsModel) object;
         }
-
-
         if(brandItemsModel != null ){
             Glide.with(getApplicationContext()).load(brandItemsModel.getImg_url()).into(product_Image);
             product_Name.setText(brandItemsModel.getName());
             product_qty.setText(brandItemsModel.getQty());
             product_price.setText(brandItemsModel.getPrice());
+
+            int price = Integer.parseInt(brandItemsModel.getPrice());
+            totalPrice = totalQuantity * price;
         }
 
+
+
+        ///Similar Products
         //Rice
         if (type != null && type.equalsIgnoreCase("rice")){
             firestore.collection("BrandItem").whereEqualTo("type","rice").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -418,5 +445,33 @@ public class DetailedActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void addedToCart() {
+        String saveCurrentDate,saveCurrentTime;
+        Calendar calForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate = new SimpleDateFormat("dd|MM|yyyy");
+        saveCurrentDate=currentDate.format(calForDate.getTime());
+
+        SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+        saveCurrentTime = currentTime.format(calForDate.getTime());
+
+        final HashMap<String,Object> cartMap = new HashMap<>();
+        cartMap.put("ProductImage",brandItemsModel.getImg_url());
+        cartMap.put("productName",brandItemsModel.getName());
+        cartMap.put("productPrice",product_price.getText().toString());
+        cartMap.put("currentDate",saveCurrentDate);
+        cartMap.put("currentTime",saveCurrentTime);
+        cartMap.put("productQuantityDetails",product_qty.getText().toString());
+        cartMap.put("TotalQuantity",quantity.getText().toString());
+        cartMap.put("totalPrice",totalPrice);
+
+        firestore.collection("AddToCart").document(auth.getCurrentUser().getUid()).collection("CurrentUser").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 }
