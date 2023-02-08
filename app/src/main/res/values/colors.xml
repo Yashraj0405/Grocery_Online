@@ -8,11 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="statusbar">#F3F1F1</color>
-    <color name="orange">#EFB054</color>
+    <color name="orange">#FFEA6969</color>
 
 
 
-    <color name="bottom_nav_backgroud">#FBFBFB</color>
+    <color name="bottom_nav_backgroud">#FFFFFF</color>
     <color name="bottom_nav_item">#8C7060</color>
     <color name="bottom_nav_selected_item">#220006</color>
     <color name="fragment_bg_colour">#FDF8F4</color>
@@ -21,4 +21,6 @@
     <color name="homepage">#E6E8F2</color>
     <color name="TextColour">#000407</color>
     <color name="ButtonColour">#E1FFEB3B</color>
+    <color name="LGreen">#81FFEB3B</color>
+    <color name="Green">#FFEB3B</color>
 </resources>
