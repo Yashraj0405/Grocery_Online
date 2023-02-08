@@ -15,7 +15,7 @@
             android:name=".activities.DetailedActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.BrandSpotLightItemActivity"
+            android:name=".activities.AllCategoryItemActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"

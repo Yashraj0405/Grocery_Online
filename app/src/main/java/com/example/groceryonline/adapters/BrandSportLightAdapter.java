@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceryonline.R;
-import com.example.groceryonline.activities.BrandSpotLightItemActivity;
+import com.example.groceryonline.activities.AllCategoryItemActivity;
 import com.example.groceryonline.models.BrandSportLight;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class BrandSportLightAdapter extends RecyclerView.Adapter<BrandSportLight
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, BrandSpotLightItemActivity.class);
+                Intent intent = new Intent(context, AllCategoryItemActivity.class);
                 intent.putExtra("type",brandSportLightList.get(holder.getAdapterPosition()).getType());
                 context.startActivity(intent);
             }

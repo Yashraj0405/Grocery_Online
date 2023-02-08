@@ -10,13 +10,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.groceryonline.R;
-import com.example.groceryonline.adapters.BrandItemAdapter;
-import com.example.groceryonline.models.BrandItemsModel;
+import com.example.groceryonline.adapters.AllCategoryItemAdapter;
+import com.example.groceryonline.models.AllCategoryItemsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,13 +40,15 @@ public class DetailedActivity extends AppCompatActivity {
     int totalPrice =0;
     Button addToCart;
 
-    BrandItemsModel brandItemsModel = null;
+    ProgressBar progressBar;
+
+    AllCategoryItemsModel allCategoryItemsModel = null;
 
     FirebaseAuth auth;
     FirebaseFirestore firestore;
     RecyclerView recyclerView;
-    BrandItemAdapter brandItemAdapter;
-    List<BrandItemsModel> brandItemsModelList;
+    AllCategoryItemAdapter allCategoryItemAdapter;
+    List<AllCategoryItemsModel> allCategoryItemsModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +57,18 @@ public class DetailedActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String type = intent.getStringExtra("type");
+
+        progressBar = findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.VISIBLE);
         recyclerView = findViewById(R.id.SimilarProducts_rec);
+        recyclerView.setVisibility(View.GONE);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
 
-        brandItemsModelList = new ArrayList<BrandItemsModel>();
-        brandItemAdapter = new BrandItemAdapter(this,brandItemsModelList);
-        recyclerView.setAdapter(brandItemAdapter);
+        allCategoryItemsModelList = new ArrayList<AllCategoryItemsModel>();
+        allCategoryItemAdapter = new AllCategoryItemAdapter(this, allCategoryItemsModelList);
+        recyclerView.setAdapter(allCategoryItemAdapter);
 
         product_Image = findViewById(R.id.detailed_img);
         product_Name = findViewById(R.id.detailed_name);
@@ -78,7 +85,7 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalQuantity<20){
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
-                    int price = Integer.parseInt(brandItemsModel.getPrice());
+                    int price = Integer.parseInt(allCategoryItemsModel.getPrice());
                     totalPrice = totalQuantity * price;
                 }
             }
@@ -91,7 +98,7 @@ public class DetailedActivity extends AppCompatActivity {
                 if(totalQuantity>0){
                     totalQuantity--;
                     quantity.setText(String.valueOf(totalQuantity));
-                    int price = Integer.parseInt(brandItemsModel.getPrice());
+                    int price = Integer.parseInt(allCategoryItemsModel.getPrice());
                     totalPrice = totalQuantity * price;
 
                 }
@@ -109,16 +116,16 @@ public class DetailedActivity extends AppCompatActivity {
 
 
         final Object object = getIntent().getSerializableExtra("detail");
-        if( object instanceof BrandItemsModel){
-            brandItemsModel = (BrandItemsModel) object;
+        if( object instanceof AllCategoryItemsModel){
+            allCategoryItemsModel = (AllCategoryItemsModel) object;
         }
-        if(brandItemsModel != null ){
-            Glide.with(getApplicationContext()).load(brandItemsModel.getImg_url()).into(product_Image);
-            product_Name.setText(brandItemsModel.getName());
-            product_qty.setText(brandItemsModel.getQty());
-            product_price.setText(brandItemsModel.getPrice());
+        if(allCategoryItemsModel != null ){
+            Glide.with(getApplicationContext()).load(allCategoryItemsModel.getImg_url()).into(product_Image);
+            product_Name.setText(allCategoryItemsModel.getName());
+            product_qty.setText(allCategoryItemsModel.getQty());
+            product_price.setText(allCategoryItemsModel.getPrice());
 
-            int price = Integer.parseInt(brandItemsModel.getPrice());
+            int price = Integer.parseInt(allCategoryItemsModel.getPrice());
             totalPrice = totalQuantity * price;
         }
 
@@ -131,9 +138,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
 
                     }
                 }
@@ -146,9 +156,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -160,9 +173,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -174,9 +190,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -188,9 +207,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -202,9 +224,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -219,9 +244,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -233,9 +261,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -247,9 +278,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -261,9 +295,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -275,9 +312,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -290,9 +330,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -304,9 +347,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -318,9 +364,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -332,9 +381,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -346,9 +398,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -361,9 +416,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -376,9 +434,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -390,9 +451,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -404,9 +468,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -418,9 +485,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -433,9 +503,12 @@ public class DetailedActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
+
+                        progressBar.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
                     }
                 }
             });
@@ -457,8 +530,8 @@ public class DetailedActivity extends AppCompatActivity {
         saveCurrentTime = currentTime.format(calForDate.getTime());
 
         final HashMap<String,Object> cartMap = new HashMap<>();
-        cartMap.put("ProductImage",brandItemsModel.getImg_url());
-        cartMap.put("productName",brandItemsModel.getName());
+        cartMap.put("ProductImage", allCategoryItemsModel.getImg_url());
+        cartMap.put("productName", allCategoryItemsModel.getName());
         cartMap.put("productPrice",product_price.getText().toString());
         cartMap.put("currentDate",saveCurrentDate);
         cartMap.put("currentTime",saveCurrentTime);

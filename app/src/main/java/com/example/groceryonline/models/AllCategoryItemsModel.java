@@ -2,16 +2,16 @@ package com.example.groceryonline.models;
 
 import java.io.Serializable;
 
-public class BrandItemsModel implements Serializable {
+public class AllCategoryItemsModel implements Serializable {
     String name;
     String img_url;
     String price;
     String qty;
     String type;
 
-    public BrandItemsModel() {}
+    public AllCategoryItemsModel() {}
 
-    public BrandItemsModel(String name, String img_url, String price, String qty, String type) {
+    public AllCategoryItemsModel(String name, String img_url, String price, String qty, String type) {
         this.name = name;
         this.img_url = img_url;
         this.price = price;

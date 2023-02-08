@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.groceryonline.R;
@@ -36,13 +37,17 @@ public class CategoryFragment extends Fragment {
     CatExploreAdapter catExploreAdapter;
     List<CatExplore> catExploreList;
 
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_category, container, false);
 
         db = FirebaseFirestore.getInstance();
+        progressBar = root.findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.VISIBLE);
         catExplore = root.findViewById(R.id.Category_Rec);
+        catExplore.setVisibility(View.GONE);
 
         //Category explore
         //catExplore.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
@@ -63,6 +68,10 @@ public class CategoryFragment extends Fragment {
                                 CatExplore catExplore1 = document.toObject(CatExplore.class);
                                 catExploreList.add(catExplore1);
                                 catExploreAdapter.notifyDataSetChanged();
+
+
+                                progressBar.setVisibility(View.GONE);
+                                catExplore.setVisibility(View.VISIBLE);
 
                             }
                         } else {

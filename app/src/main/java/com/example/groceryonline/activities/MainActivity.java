@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import com.example.groceryonline.ui.home.addToCart.AddToCartFragment;
 import com.example.groceryonline.ui.home.category.CategoryFragment;
 import com.example.groceryonline.R;
-import com.example.groceryonline.ui.home.category.Category_2_Fragment;
 import com.example.groceryonline.ui.home.home.HomeFragment;
 import com.example.groceryonline.ui.home.profile.ProfileFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

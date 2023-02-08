@@ -1,17 +1,11 @@
 package com.example.groceryonline.ui.home.home;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
@@ -24,18 +18,16 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.example.groceryonline.R;
-import com.example.groceryonline.activities.BrandSpotLightItemActivity;
 import com.example.groceryonline.adapters.AutoImageAdapter;
-import com.example.groceryonline.adapters.BrandItemAdapter;
+import com.example.groceryonline.adapters.AllCategoryItemAdapter;
 import com.example.groceryonline.adapters.BrandSportLightAdapter;
 import com.example.groceryonline.adapters.HomeAdapter;
 import com.example.groceryonline.adapters.PopularAdapters;
+import com.example.groceryonline.models.AllCategoryItemsModel;
 import com.example.groceryonline.models.AutoImage;
-import com.example.groceryonline.models.BrandItemsModel;
 import com.example.groceryonline.models.BrandSportLight;
 import com.example.groceryonline.models.HomeCategory;
 import com.example.groceryonline.models.PopularModel;
-import com.example.groceryonline.ui.home.profile.ProfileFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -71,11 +63,11 @@ public class HomeFragment extends Fragment {
 
 
     //Using BrandItem : Model&Adapter for vegetableRec and many more
-    List<BrandItemsModel> brandItemsModelList;
-    BrandItemAdapter brandItemAdapter;
+    List<AllCategoryItemsModel> allCategoryItemsModelList;
+    AllCategoryItemAdapter allCategoryItemAdapter;
 
-    List<BrandItemsModel> list;
-    BrandItemAdapter adapter;
+    List<AllCategoryItemsModel> list;
+    AllCategoryItemAdapter adapter;
 
     //Auto Image
     private ViewPager2 viewPager2;
@@ -244,9 +236,9 @@ public class HomeFragment extends Fragment {
 
         //Vegetable rec
         vegetableRec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
-        brandItemsModelList = new ArrayList<>();
-        brandItemAdapter = new BrandItemAdapter(getActivity(),brandItemsModelList);
-        vegetableRec.setAdapter(brandItemAdapter);
+        allCategoryItemsModelList = new ArrayList<>();
+        allCategoryItemAdapter = new AllCategoryItemAdapter(getActivity(), allCategoryItemsModelList);
+        vegetableRec.setAdapter(allCategoryItemAdapter);
 
 
 
@@ -254,9 +246,9 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                        BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                        brandItemsModelList.add(brandItemsModel);
-                        brandItemAdapter.notifyDataSetChanged();
+                        AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                        allCategoryItemsModelList.add(allCategoryItemsModel);
+                        allCategoryItemAdapter.notifyDataSetChanged();
                     }
                 }
             });
@@ -265,7 +257,7 @@ public class HomeFragment extends Fragment {
         //Fruit rec
         fruits_rec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
         list = new ArrayList<>();
-        adapter = new BrandItemAdapter(getActivity(),list);
+        adapter = new AllCategoryItemAdapter(getActivity(),list);
         fruits_rec.setAdapter(adapter);
 
 
@@ -274,8 +266,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
-                    BrandItemsModel brandItemsModel = documentSnapshot.toObject(BrandItemsModel.class);
-                    list.add(brandItemsModel);
+                    AllCategoryItemsModel allCategoryItemsModel = documentSnapshot.toObject(AllCategoryItemsModel.class);
+                    list.add(allCategoryItemsModel);
                     adapter.notifyDataSetChanged();
                 }
             }

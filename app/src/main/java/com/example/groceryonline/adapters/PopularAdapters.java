@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.groceryonline.R;
-import com.example.groceryonline.activities.BrandSpotLightItemActivity;
+import com.example.groceryonline.activities.AllCategoryItemActivity;
 import com.example.groceryonline.models.PopularModel;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class PopularAdapters extends RecyclerView.Adapter<PopularAdapters.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, BrandSpotLightItemActivity.class);
+                Intent intent = new Intent(context, AllCategoryItemActivity.class);
                 intent.putExtra("type",popularModelList.get(holder.getAdapterPosition()).getType());
                 context.startActivity(intent);
             }

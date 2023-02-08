@@ -13,41 +13,41 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.groceryonline.R;
 import com.example.groceryonline.activities.DetailedActivity;
-import com.example.groceryonline.models.BrandItemsModel;
+import com.example.groceryonline.models.AllCategoryItemsModel;
 import com.example.groceryonline.models.GlideApp;
 
 import java.util.List;
 
-public class BrandItemAdapter extends RecyclerView.Adapter<BrandItemAdapter.ViewHolder> {
+public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItemAdapter.ViewHolder> {
     Context context;
-    List<BrandItemsModel> brandItemsModelList;
+    List<AllCategoryItemsModel> allCategoryItemsModelList;
 
-    public BrandItemAdapter(Context context, List<BrandItemsModel> brandItemsModelList) {
+    public AllCategoryItemAdapter(Context context, List<AllCategoryItemsModel> allCategoryItemsModelList) {
         this.context = context;
-        this.brandItemsModelList = brandItemsModelList;
+        this.allCategoryItemsModelList = allCategoryItemsModelList;
     }
     @NonNull
     @Override
-    public BrandItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AllCategoryItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.brand_items,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BrandItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AllCategoryItemAdapter.ViewHolder holder, int position) {
 
-        GlideApp.with(context).load(brandItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
-        //Glide.with(context).load(brandItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
-        holder.brand_item_qty.setText(brandItemsModelList.get(position).getQty());
-        holder.brand_item_name.setText(brandItemsModelList.get(position).getName());
-        holder.brand_item_price.setText(brandItemsModelList.get(position).getPrice());
+        GlideApp.with(context).load(allCategoryItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
+        //Glide.with(context).load(allCategoryItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
+        holder.brand_item_qty.setText(allCategoryItemsModelList.get(position).getQty());
+        holder.brand_item_name.setText(allCategoryItemsModelList.get(position).getName());
+        holder.brand_item_price.setText(allCategoryItemsModelList.get(position).getPrice());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailedActivity.class);
-                intent.putExtra("detail",brandItemsModelList.get(holder.getAdapterPosition()));
+                intent.putExtra("detail", allCategoryItemsModelList.get(holder.getAdapterPosition()));
                 //To show similar products
-                intent.putExtra("type",brandItemsModelList.get(holder.getAdapterPosition()).getType());
+                intent.putExtra("type", allCategoryItemsModelList.get(holder.getAdapterPosition()).getType());
                 context.startActivity(intent);
             }
         });
@@ -60,7 +60,7 @@ public class BrandItemAdapter extends RecyclerView.Adapter<BrandItemAdapter.View
 
     @Override
     public int getItemCount() {
-        return brandItemsModelList.size();
+        return allCategoryItemsModelList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
