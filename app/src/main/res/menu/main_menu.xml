@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/ORDER"
+            android:icon="@drawable/baseline_shopping_bag_24"
+            android:title="ORDER" />
+
+        <item
+            android:id="@+id/CART"
+            android:icon="@drawable/ic_baseline_shopping_cart_24"
+            android:title="CART" />
+
+
+        <item
+            android:id="@+id/PROFILE"
+            android:icon="@drawable/ic_baseline_person_24"
+            android:title="PROFILE" />
+
+
+    </group>
+
+</menu>

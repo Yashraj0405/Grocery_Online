@@ -33,7 +33,7 @@
 
 
                 <EditText
-                    android:layout_width="330dp"
+                    android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_margin="8dp"
                     android:background="@drawable/search_backgroud"
@@ -42,16 +42,6 @@
                     android:hint="@string/search_for_aata_dal_coke_and_more"
                     android:paddingStart="5dp" />
 
-                <ImageView
-                    android:id="@+id/profile_circle"
-                    android:layout_width="52dp"
-                    android:layout_height="58dp"
-                    android:layout_gravity="start"
-                    android:paddingTop="5dp"
-                    android:paddingEnd="10dp"
-                    android:src="@drawable/baseline_account_circle_24">
-
-                </ImageView>
 
 
             </LinearLayout>

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -43,6 +44,7 @@ public class AddToCartFragment extends Fragment {
     MyCartAdapter cartAdapter;
 
     TextView TotalAmount;
+    Button orderNOw;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -79,6 +81,14 @@ public class AddToCartFragment extends Fragment {
 
                     }
                 }
+            }
+        });
+
+        orderNOw = root.findViewById(R.id.Order_button);
+        orderNOw.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 

@@ -76,28 +76,11 @@ public class HomeFragment extends Fragment {
     private Handler sliderHandler = new Handler();
 
 
-    //Profile fragment
-    ImageView profileIcon;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-
-        profileIcon = root.findViewById(R.id.profile_circle);
-        profileIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getContext(), "Profile", Toast.LENGTH_SHORT).show();
-
-//                Fragment fragment = new ProfileFragment();
-//                FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(R.id.home_container, fragment).commit();
-////                fragmentTransaction.addToBackStack(null);
-////                fragmentTransaction.commit();
-            }
-        });
 
         scrollView = root.findViewById(R.id.ScrollView);
         progressBar = root.findViewById(R.id.Progressbar);
@@ -259,7 +242,6 @@ public class HomeFragment extends Fragment {
         list = new ArrayList<>();
         adapter = new AllCategoryItemAdapter(getActivity(),list);
         fruits_rec.setAdapter(adapter);
-
 
 
         db.collection("BrandItem").whereEqualTo("type","Fruits" ).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
