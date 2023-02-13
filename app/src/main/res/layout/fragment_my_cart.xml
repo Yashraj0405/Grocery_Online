@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FDFDFD"
-    tools:context=".ui.home.addToCart.AddToCartFragment">
+    tools:context=".ui.home.addToCart.MyCartFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

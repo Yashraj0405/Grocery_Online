@@ -6,15 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.Switch;
-import android.widget.Toast;
 
-import com.example.groceryonline.order.OrderFragment;
-import com.example.groceryonline.ui.home.addToCart.AddToCartFragment;
+import com.example.groceryonline.ui.home.order.OrderFragment;
+import com.example.groceryonline.ui.home.addToCart.MyCartFragment;
 import com.example.groceryonline.ui.home.category.CategoryFragment;
 import com.example.groceryonline.R;
 import com.example.groceryonline.ui.home.home.HomeFragment;
@@ -39,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     HomeFragment homeFragment = new HomeFragment();
     ProfileFragment profileFragment = new ProfileFragment();
     CategoryFragment categoryFragment = new CategoryFragment();
-    AddToCartFragment addToCartFragment = new AddToCartFragment();
+    MyCartFragment myCartFragment = new MyCartFragment();
 
     //Drawer Navigation
     DrawerLayout drawerLayout;
@@ -68,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
                         return true;
                     case R.id.Cart:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,addToCartFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, myCartFragment).commit();
                         return true;
                     case R.id.Category:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, categoryFragment).commit();
@@ -95,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 switch(item.getItemId()){
                     case R.id.CART:
                     {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,addToCartFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, myCartFragment).commit();
                         break;
                     }
                     case R.id.ORDER:

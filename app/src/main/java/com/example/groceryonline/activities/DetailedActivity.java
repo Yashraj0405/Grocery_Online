@@ -523,6 +523,7 @@ public class DetailedActivity extends AppCompatActivity {
     private void addedToCart() {
         String saveCurrentDate,saveCurrentTime;
         Calendar calForDate = Calendar.getInstance();
+
         SimpleDateFormat currentDate = new SimpleDateFormat("dd|MM|yyyy");
         saveCurrentDate=currentDate.format(calForDate.getTime());
 
@@ -539,7 +540,7 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("TotalQuantity",quantity.getText().toString());
         cartMap.put("totalPrice",totalPrice);
 
-        firestore.collection("AddToCart").document(auth.getCurrentUser().getUid()).collection("CurrentUser").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+        firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
