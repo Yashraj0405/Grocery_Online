@@ -30,10 +30,10 @@
 
             <TextView
                 android:id="@+id/order_product_name"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_width="wrap_content"
                 android:textStyle="bold"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:text="ITC Crispy French Fries ITC Crispy French Fries"
                 android:textColor="@color/black"
                 android:textSize="17dp"/>

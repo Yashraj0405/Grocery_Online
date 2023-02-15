@@ -5,17 +5,20 @@
         android:id="@+id/Home"
         android:icon="@drawable/homeee"
         android:title="@string/Home_Tittle"
+        android:titleTextColor="@color/black"
         />
 
     <item
         android:id="@+id/Category"
         android:icon="@drawable/ic_baseline_category_24"
-        android:title="Category">
+        android:title="Category"
+        android:titleTextColor="@color/black">
 
     </item>
 
     <item
         android:id="@+id/Cart"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        android:title="Cart" />
+        android:title="Cart"
+        android:titleTextColor="@color/black"/>
 </menu>
