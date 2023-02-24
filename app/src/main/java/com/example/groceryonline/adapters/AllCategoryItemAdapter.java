@@ -33,9 +33,11 @@ public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItem
     Context context;
     List<AllCategoryItemsModel> allCategoryItemsModelList;
 
+
     FirebaseAuth auth;
     FirebaseFirestore firestore;
     String totalQty = "1";
+    int TotalQuantity=0;
     int totalPrice =0;
 
 
@@ -54,16 +56,19 @@ public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItem
     @Override
     public void onBindViewHolder(@NonNull AllCategoryItemAdapter.ViewHolder holder, int position) {
 
+
+
         GlideApp.with(context).load(allCategoryItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
         //Glide.with(context).load(allCategoryItemsModelList.get(position).getImg_url()).into(holder.brand_item_img);
         holder.brand_item_qty.setText(allCategoryItemsModelList.get(position).getQty());
         holder.brand_item_name.setText(allCategoryItemsModelList.get(position).getName());
         holder.brand_item_price.setText(allCategoryItemsModelList.get(position).getPrice());
 
+
+
         
         
-        
-        
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,41 +81,77 @@ public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItem
             }
         });
 
+        holder.count.setVisibility(View.GONE);
+
+        //Plus Button
+        holder.plusButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if(TotalQuantity<20){
+                    TotalQuantity++;
+                    holder.count.setText(String.valueOf(TotalQuantity));
+                    if (TotalQuantity>=1) {
+                        holder.count.setVisibility(View.VISIBLE);
+                        holder.addButton.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+
+        //Minus Button
+        holder.minusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(TotalQuantity>0){
+                    TotalQuantity--;
+                    holder.count.setText(String.valueOf(TotalQuantity));
+                    if(TotalQuantity==0){
+                        holder.count.setVisibility(View.GONE);
+                        holder.addButton.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
+        ///////Add to cart Button
+        holder.addButton.setVisibility(View.GONE);
         //Add To cart
         holder.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    String saveCurrentDate,saveCurrentTime;
+                    Calendar calForDate = Calendar.getInstance();
 
-                String saveCurrentDate,saveCurrentTime;
-                Calendar calForDate = Calendar.getInstance();
+                    SimpleDateFormat currentDate = new SimpleDateFormat("dd|MM|yyyy");
+                    saveCurrentDate=currentDate.format(calForDate.getTime());
 
-                SimpleDateFormat currentDate = new SimpleDateFormat("dd|MM|yyyy");
-                saveCurrentDate=currentDate.format(calForDate.getTime());
+                    SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
+                    saveCurrentTime = currentTime.format(calForDate.getTime());
 
-                SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
-                saveCurrentTime = currentTime.format(calForDate.getTime());
+                    int price = Integer.parseInt(allCategoryItemsModelList.get(holder.getAdapterPosition()).getPrice());
+                    totalPrice = TotalQuantity * price;
 
-                int price = Integer.parseInt(allCategoryItemsModelList.get(holder.getAdapterPosition()).getPrice());
-                totalPrice = 1 * price;
-
-                final HashMap<String,Object> cartMap = new HashMap<>();
-                cartMap.put("ProductImage",allCategoryItemsModelList.get(holder.getAdapterPosition()).getImg_url());
-                cartMap.put("productName",allCategoryItemsModelList.get(holder.getAdapterPosition()).getName());
-                cartMap.put("productPrice",allCategoryItemsModelList.get(holder.getAdapterPosition()).getPrice());
-                cartMap.put("productQuantityDetails",allCategoryItemsModelList.get(holder.getAdapterPosition()).getQty());
-                cartMap.put("TotalQuantity",totalQty);
-                cartMap.put("totalPrice",totalPrice);
-                cartMap.put("currentDate",saveCurrentDate);
-                cartMap.put("currentTime",saveCurrentTime);
-
+                    final HashMap<String,Object> cartMap = new HashMap<>();
+                    cartMap.put("ProductImage",allCategoryItemsModelList.get(holder.getAdapterPosition()).getImg_url());
+                    cartMap.put("productName",allCategoryItemsModelList.get(holder.getAdapterPosition()).getName());
+                    cartMap.put("productPrice",allCategoryItemsModelList.get(holder.getAdapterPosition()).getPrice());
+                    cartMap.put("productQuantityDetails",allCategoryItemsModelList.get(holder.getAdapterPosition()).getQty());
+                    cartMap.put("TotalQuantity",(String.valueOf(TotalQuantity)));
+                    cartMap.put("totalPrice",totalPrice);
+                    cartMap.put("currentDate",saveCurrentDate);
+                    cartMap.put("currentTime",saveCurrentTime);
 
 
-                firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentReference> task) {
-                        Toast.makeText(context, "Added To Cart", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
+                    firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                            Toast.makeText(context, "Added To Cart", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+
             }
         });
 
@@ -128,6 +169,10 @@ public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItem
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        TextView count;
+        Button plusButton, minusButton;
+
+
         Button addButton;
         ImageView brand_item_img;
         TextView brand_item_name,brand_item_price,brand_item_qty;
@@ -140,6 +185,10 @@ public class AllCategoryItemAdapter extends RecyclerView.Adapter<AllCategoryItem
             brand_item_qty =itemView.findViewById(R.id.Brand_item_Qty);
             addButton = itemView.findViewById(R.id.add_button);
 
+
+            count = itemView.findViewById(R.id.Count);
+            plusButton = itemView.findViewById(R.id.Plus_Button);
+            minusButton = itemView.findViewById(R.id.Minus_Button);
 
         }
     }

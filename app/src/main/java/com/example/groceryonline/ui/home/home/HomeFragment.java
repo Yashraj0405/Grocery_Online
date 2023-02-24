@@ -9,9 +9,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
@@ -60,6 +63,12 @@ public class HomeFragment extends Fragment {
     //Brand SportLight
     List<BrandSportLight> brandSportLightList;
     BrandSportLightAdapter brandSportLightAdapter;
+
+    //Search Bar & View
+    EditText search_box;
+    private List<AllCategoryItemsModel> allCategoryItemsList;
+    private RecyclerView SearchRecyclerView;
+    private AllCategoryItemAdapter AdapterAllCategoryItem;
 
 
     //Using BrandItem : Model&Adapter for vegetableRec and many more
@@ -255,11 +264,71 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        /////Search Bar & View
+
+        SearchRecyclerView = root.findViewById(R.id.search_rec);
+        search_box = root.findViewById(R.id.search_box);
+        allCategoryItemsList = new ArrayList<>();
+        AdapterAllCategoryItem = new AllCategoryItemAdapter(getContext(),allCategoryItemsList);
+        SearchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false));
+       // SearchRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        SearchRecyclerView.setAdapter(AdapterAllCategoryItem);
+        SearchRecyclerView.setHasFixedSize(true);
+        search_box.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if(s.toString().isEmpty()){
+                    allCategoryItemsList.clear();
+                    AdapterAllCategoryItem.notifyDataSetChanged();
+
+                }else {
+                    searchProduct(s.toString());
+                }
+
+            }
+        });
 
 
 
 
         return root;
+    }
+
+    private void searchProduct(String type) {
+
+        if(!type.isEmpty()){
+            db.collection("BrandItem").whereEqualTo("type",type).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                            if(task.isSuccessful() && task.getResult() != null){
+
+                                allCategoryItemsList.clear();
+                                AdapterAllCategoryItem.notifyDataSetChanged();
+                                for( DocumentSnapshot doc : task.getResult().getDocuments()){
+                                    AllCategoryItemsModel model = doc.toObject(AllCategoryItemsModel.class);
+                                    allCategoryItemsList.add(model);
+                                    AdapterAllCategoryItem.notifyDataSetChanged();
+                                }
+
+                            }
+
+                        }
+                    });
+        }
+
     }
 
     private Runnable sliderRunnable = new Runnable() {
@@ -272,12 +341,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        sliderHandler.removeCallbacks(sliderRunnable);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable,3000);
+        sliderHandler.removeCallbacks(sliderRunnable);
     }
 }

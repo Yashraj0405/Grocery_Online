@@ -21,9 +21,12 @@ import com.example.groceryonline.models.AllCategoryItemsModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -540,12 +543,52 @@ public class DetailedActivity extends AppCompatActivity {
         cartMap.put("TotalQuantity",quantity.getText().toString());
         cartMap.put("totalPrice",totalPrice);
 
-        firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+//        firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentReference> task) {
+//                Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
+//                finish();
+//            }
+//        });
+
+        final CollectionReference cartRef = firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid()).collection("AddToCart");
+        Query query = cartRef.whereEqualTo("productName", allCategoryItemsModel.getName());
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
-                finish();
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String id = document.getId();
+                        int oldQuantity = Integer.parseInt(document.get("TotalQuantity").toString());
+                        int newQuantity = Integer.parseInt(quantity.getText().toString());
+                        int totalQuantity = oldQuantity + newQuantity;
+                        double oldPrice = Double.parseDouble(document.get("totalPrice").toString());
+                        double newPrice = totalPrice;
+                        double total = oldPrice + newPrice;
+
+                        //cartMap.put("productQuantityDetails", String.valueOf(totalQuantity));
+                        cartMap.put("TotalQuantity", String.valueOf(totalQuantity));
+                        cartMap.put("totalPrice", total);
+
+                        cartRef.document(id).set(cartMap);
+                        Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
+                        finish();
+                        return;
+                    }
+                }
+
+                // If the document doesn't exist, create a new one
+                cartRef.add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        Toast.makeText(DetailedActivity.this, "Added To Cart", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                });
             }
         });
+
+
     }
 }

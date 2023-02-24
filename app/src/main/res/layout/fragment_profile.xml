@@ -4,17 +4,99 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Profile_container"
     android:layout_width="match_parent"
+    android:background="#FDFDFD"
     android:layout_height="match_parent"
     tools:context=".ui.home.profile.ProfileFragment">
 
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/profile_img"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/profile"
+        app:civ_border_width="5dp"
+        android:layout_marginTop="20dp"
+        app:civ_border_color="#FF000000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <EditText
+        android:id="@+id/name_pro"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Profile"
+        android:background="@drawable/edittext_backgroud"
+        android:drawableStart="@drawable/ic_baseline_person_24"
+        android:elevation="3dp"
+        android:hint=" Name"
+        android:padding="13dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_img"
+        app:layout_constraintWidth_percent=".9" />
+
+    <EditText
+        android:id="@+id/email_pro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_backgroud"
+        android:drawableStart="@drawable/ic_baseline_email_24"
+        android:elevation="3dp"
+        android:hint=" Email"
+        android:padding="13dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/name_pro"
+        app:layout_constraintWidth_percent=".9" />
+
+    <EditText
+        android:id="@+id/address_pro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_backgroud"
+        android:drawableStart="@drawable/baseline_location_on_24"
+        android:elevation="3dp"
+        android:hint=" Address"
+        android:padding="13dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email_pro"
+        app:layout_constraintWidth_percent=".9" />
+
+    <EditText
+        android:id="@+id/phoneNumber_pro"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edittext_backgroud"
+        android:drawableStart="@drawable/baseline_phone_24"
+        android:elevation="3dp"
+        android:hint=" Phone Number"
+        android:padding="13dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/address_pro"
+        app:layout_constraintWidth_percent=".9" />
+
+    <Button
+        android:id="@+id/UpdateButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/signupbotton"
+        android:text="UPDATE"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:layout_constraintVertical_bias=".3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/phoneNumber_pro" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

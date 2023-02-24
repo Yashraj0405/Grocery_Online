@@ -26,25 +26,23 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/search_box"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_height="52dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/search_backgroud"
+                android:drawableLeft="@drawable/baseline_search_24"
+                android:elevation="3dp"
+                android:hint="@string/search_for_aata_dal_coke_and_more"
+                android:paddingStart="5dp" />
 
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="52dp"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/search_backgroud"
-                    android:drawableLeft="@drawable/baseline_search_24"
-                    android:elevation="3dp"
-                    android:hint="@string/search_for_aata_dal_coke_and_more"
-                    android:paddingStart="5dp" />
-
-
-
-            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/search_rec"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"/>
 
 
             <androidx.viewpager2.widget.ViewPager2
